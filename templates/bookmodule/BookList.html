@@ -1,8 +1,5 @@
-{%for book in books%}
-<h4>ID: {{ book.id }}</h4>
-<h4>Title: {{ book.title }}</h4>
-<h4>Authors</h4>
-<p>{{ book.author }}</p>
-<h4>Description</h4>
-<p>Description here</p>
+{% for obj in books %}
+ID: {{obj.id}}, Title: {{obj.title}}
+Price : {{obj.price}}
+<hr>
 {%endfor%}

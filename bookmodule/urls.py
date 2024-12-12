@@ -7,5 +7,7 @@ urlpatterns = [
     path('', views.index),
 path('index2/<int:val1>/', views.index2),
 path('<int:bookId>', views.viewbook),
-path('search/', views.search)
+path('search/', views.search),
+path('simple/query/', views.simple_query),
+path('complex/query/', views.simple_query)
 ]
