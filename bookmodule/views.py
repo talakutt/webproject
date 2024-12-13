@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Book
+from django.db.models import Sum, Avg, Max, Min, Q
 # Create your views here.
 
 
@@ -54,3 +55,51 @@ def lookup_query(request):
         return render(request,'bookmodule/bookList.html', {'books':mybooks})
     else:
         return render(request, 'bookmodule/index.html')
+    
+def lab8_task1(request):
+    mybooks = Book.objects.filter(price__lte=50)
+    if len(mybooks)>=1:
+        return render(request,'bookmodule/lab8_task1.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+    
+    
+def lab8_task2(request):
+    mybooks = Book.objects.filter(Q(edition__gt=2) & (Q(title__icontains='qu') | Q(author__icontains='qu'))) 
+    if len(mybooks)>=1:
+        return render(request,'bookmodule/lab8_task2.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+    
+def lab8_task3(request):
+    mybooks = Book.objects.filter(Q(edition__lte=2) & ~Q(title__icontains='qu') & ~Q(author__icontains='qu'))
+    if len(mybooks)>=1:
+        return render(request,'bookmodule/lab8_task3.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+    
+    
+def lab8_task4(request):
+    mybooks = Book.objects.all().order_by('title')
+    if len(mybooks)>=1:
+        return render(request,'bookmodule/lab8_task4.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')
+    
+def lab8_task5(request):
+    book_count = Book.objects.count()
+    total_price = Book.objects.aggregate(total_price=Sum('price'))['total_price']
+    average_price = Book.objects.aggregate(avg_price=Avg('price'))['avg_price']
+    maximum_price = Book.objects.aggregate(max_price=Max('price'))['max_price']
+    minimum_price = Book.objects.aggregate(min_price=Min('price'))['min_price']
+    context = {
+        'book_count': book_count,
+        'total_price': total_price,
+        'average_price': average_price,
+        'maximum_price': maximum_price,
+        'minimum_price': minimum_price,
+    }
+
+    return render(request, 'bookmodule/lab8_task5.html', context)
+    
+    
