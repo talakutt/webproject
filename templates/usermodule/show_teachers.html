@@ -1,0 +1,8 @@
+<ul>
+    {% for teacher in teachers %}
+        <li>
+            <h2>{{ teacher.name }}</h2>
+            <img src="{{ teacher.photo.url }}" alt="teacher picture">  <!-- Example image field -->
+        </li>
+    {% endfor %}
+</ul>
